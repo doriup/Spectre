@@ -1,0 +1,913 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Spectre — on-set frequency coordination</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+/* Deliberate look: technical measurement sheet, light ground — closer to
+   real RF coordination tools (Wireless Workbench, WSM) than a dark dashboard.
+   System fonts only: light file, zero network dependency, works on a set
+   with no connection. */
+:root{
+  --paper:#f4f5f3;
+  --paper-raised:#ffffff;
+  --line:#d8dad4;
+  --line-strong:#b9bcb4;
+  --ink:#1b1f1c;
+  --ink-dim:#5f665f;
+  --ink-faint:#8b9188;
+  --accent:#1f4e8c;
+  --accent-soft:#dde6f2;
+  --danger:#b3222f;
+  --danger-soft:#f6dcdd;
+  --ok:#2e6b45;
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, "Roboto Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+::selection{ background: var(--accent-soft); color: var(--ink); }
+input[type=checkbox]{ accent-color: var(--accent); }
+
+.app{ max-width: 1360px; margin: 0 auto; padding: 22px 24px 60px; }
+
+/* ---------- Topbar ---------- */
+.topbar{
+  display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+  padding-bottom:16px; margin-bottom:20px;
+  border-bottom: 2px solid var(--ink);
+}
+.brand{ display:flex; align-items:center; gap:11px; margin-right:auto; }
+.brand-mark{
+  width:34px; height:34px; flex:none; display:flex; align-items:flex-end; justify-content:center;
+  gap:3px; border:1.5px solid var(--ink); border-radius:3px; padding:6px 7px;
+}
+.brand-mark .bar{ width:4px; background: var(--accent); border-radius:1px; }
+.brand h1{ font-size:17px; margin:0; font-weight:700; letter-spacing:-0.01em; }
+.brand p{ margin:1px 0 0; font-size:11.5px; color: var(--ink-dim); text-transform:uppercase; letter-spacing:0.06em; }
+
+.status-pill{
+  font-family: var(--font-sans); font-size:12px; font-weight:600; padding:5px 10px; border-radius:3px;
+  border:1px solid var(--line-strong); color: var(--ink-dim); background: var(--paper-raised);
+  white-space:nowrap;
+}
+.status-pill.warn{ color:#7a1620; border-color:#d9a4a8; background: var(--danger-soft); }
+.status-pill.clear{ color: var(--ok); border-color:#a9c9b3; background:#e6f1e9; }
+
+.actions{ display:flex; gap:8px; }
+button{
+  font-family: var(--font-sans); font-size:12px; font-weight:600; cursor:pointer;
+  background: var(--paper-raised); color: var(--ink); border:1px solid var(--line-strong);
+  padding:7px 12px; border-radius:3px; transition: border-color .15s, color .15s, background .15s;
+}
+button:hover{ border-color: var(--accent); color: var(--accent); }
+button:focus-visible, [tabindex]:focus-visible, .chan:focus-visible, .band-tab:focus-visible{
+  outline: 2px solid var(--accent); outline-offset: 2px;
+}
+button.danger:hover{ border-color: var(--danger); color: var(--danger); }
+
+/* ---------- Layout ---------- */
+.layout{ display:flex; flex-direction:column; gap:20px; }
+.layout > .panel, .layout > .below-row{ min-width:0; }
+.below-row{ display:grid; grid-template-columns: 1fr 1fr; gap:20px; align-items:start; }
+@media (max-width: 700px){ .below-row{ grid-template-columns: 1fr; } }
+
+.panel{
+  background: var(--paper-raised); border:1px solid var(--line-strong); border-radius:4px;
+  min-width:0;
+}
+.panel-head{
+  padding:10px 15px; border-bottom:1px solid var(--line);
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.panel-head h2{
+  font-size:11.5px; margin:0; font-weight:700; letter-spacing:0.07em; text-transform:uppercase;
+}
+.panel-head .hint{ font-size:11px; color: var(--ink-faint); }
+
+.band-tabs{ display:flex; gap:4px; }
+.band-tab{
+  font-family: var(--font-sans); font-size:11.5px; font-weight:700; letter-spacing:0.03em;
+  padding:6px 12px; border-radius:3px; border:1px solid var(--line-strong);
+  background: var(--paper-raised); color: var(--ink-dim); cursor:pointer; transition: all .12s;
+}
+.band-tab:hover{ color: var(--ink); border-color: var(--ink-faint); }
+.band-tab.active{ background: var(--ink); color:#fff; border-color: var(--ink); }
+
+/* ---------- Spectrum ----------
+   The label column and the frequency track are two physically separate
+   columns (not a sticky element inside the scroller) — Safari has long-
+   standing bugs miscalculating width for position:sticky flex items inside
+   a horizontally scrolling ancestor, which made the label column balloon.
+   Two independent columns, kept in sync by matching row heights, sidesteps
+   that entirely and works the same everywhere. */
+.spectrum-body{ display:flex; align-items:flex-start; position:relative; }
+.scroll-fade{
+  position:absolute; top:16px; bottom:16px; right:0; width:34px;
+  background: linear-gradient(to right, transparent, rgba(27,31,28,0.10));
+  pointer-events:none; opacity:0; transition:opacity .15s;
+}
+.scroll-fade.show{ opacity:1; }
+
+.spectrum-labels{
+  width:150px; min-width:150px; max-width:150px; flex:0 0 150px;
+  padding:16px 0 16px 16px; border-right:1px solid var(--line-strong);
+  background: var(--paper-raised);
+}
+.ruler-spacer{ height:24px; }
+.row-label{
+  padding:6px 10px 6px 0; display:flex; flex-direction:column; justify-content:center; gap:1px;
+  box-sizing:border-box;
+}
+.row-label.row-line{ border-top:1px solid var(--line); }
+.row-label.off .name{ color: var(--ink-faint); font-weight:600; }
+.row-check{ display:flex; align-items:center; gap:6px; cursor:pointer; }
+.row-check input{ margin:0; flex:none; }
+.row-label .name{ font-size:12px; font-weight:700; }
+.row-label .meta{ font-size:10px; color: var(--ink-faint); font-family: var(--font-sans); }
+.row-label.overview-label{ background:#eef1ec; margin-left:-16px; padding-left:26px; }
+.row-label.overview-label .name{ color: var(--ink); }
+
+.spectrum-scroll{ overflow-x:auto; padding:16px 16px 16px 0; flex:1; min-width:0; }
+.spectrum-track-inner{ position:relative; }
+
+.grid-overlay{ position:absolute; top:24px; bottom:0; left:0; right:0; pointer-events:none; z-index:0; }
+.grid-line{ position:absolute; top:0; bottom:0; width:1px; background:var(--line); }
+.grid-line.major{ background:var(--line-strong); }
+
+.ruler{ position:relative; height:24px; }
+.tick{ position:absolute; top:0; bottom:0; border-left:1px solid var(--line); }
+.tick.major{ border-left-color: var(--line-strong); }
+.tick span{
+  position:absolute; top:2px; left:4px; font-family: var(--font-sans); font-size:9.5px;
+  color: var(--ink-dim); white-space:nowrap;
+}
+.tick.major span{ font-size:10.5px; font-weight:700; color: var(--ink); }
+
+.row-track{ position:relative; box-sizing:border-box; }
+.row-track.row-line{ border-top:1px solid var(--line); }
+.row-track.overview-track{ background:#eef1ec; }
+
+.occ-rect{
+  position:absolute; border-radius:2px;
+  display:flex; align-items:center; justify-content:center; padding:0 4px;
+  font-family: var(--font-sans); font-size:10px; font-weight:700;
+  white-space:nowrap; overflow:hidden; box-shadow:0 1px 0 rgba(0,0,0,0.12);
+}
+.occ-rect.conflict{ box-shadow: 0 0 0 2px var(--danger); }
+
+.chan{
+  position:absolute; border-radius:2px;
+  background: #e4e6e0; border:1px solid var(--line-strong);
+  cursor:pointer; transition: filter .1s, transform .1s, box-shadow .1s;
+  display:flex; align-items:center; justify-content:center; overflow:hidden; padding:0 3px;
+  font-family: var(--font-sans); font-size:8.5px; font-weight:700; color: var(--ink-dim); line-height:1;
+}
+.chan:hover{ filter:brightness(0.94); transform: translateY(-1px); z-index:3; border-color: var(--ink); }
+.chan.aux{ border-style:dashed; }
+.chan.conflict{ background: var(--danger-soft); border-color: var(--danger); color:#7a1620; }
+.chan.selected{ border-color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,0.2); z-index:2; color: var(--ink); }
+
+/* ---------- Tooltip ---------- */
+#tooltip{
+  position:fixed; z-index:50; pointer-events:none; background: var(--ink); color:#fff;
+  font-family: var(--font-sans); font-size:11.5px; padding:6px 8px; border-radius:3px;
+  line-height:1.45; box-shadow:0 3px 10px rgba(0,0,0,0.25); opacity:0; transform:translateY(2px);
+  transition: opacity .08s, transform .08s; max-width:220px;
+}
+#tooltip.show{ opacity:1; transform:translateY(0); }
+#tooltip .tt-title{ font-weight:700; }
+#tooltip .tt-sub{ color:#c9cdc5; font-family: var(--font-sans); font-size:10.5px; }
+
+/* ---------- Below-row panels ---------- */
+
+.pos-list{ list-style:none; margin:0; padding:8px; display:flex; flex-direction:column; gap:6px; }
+.pos-empty{ padding:18px 14px; text-align:center; color: var(--ink-faint); font-size:12px; }
+.pos-item{
+  display:flex; align-items:center; gap:8px; padding:7px 8px; border-radius:3px;
+  background: var(--paper); border:1px solid var(--line);
+}
+.pos-item.conflicted{ border-color:#d9a4a8; background: var(--danger-soft); }
+.pos-chip{ width:10px; height:10px; border-radius:2px; flex:none; }
+.pos-main{ flex:1; min-width:0; }
+.pos-label{
+  width:100%; background:transparent; border:none; color: var(--ink); font-size:12.5px;
+  font-weight:700; padding:0; border-radius:2px; font-family: var(--font-sans);
+}
+.pos-label:focus{ outline: 1px solid var(--accent); }
+.pos-sub{ font-size:10.5px; color: var(--ink-dim); font-family: var(--font-sans); margin-top:1px; }
+.pos-flag{ font-size:10.5px; color: var(--danger); font-family: var(--font-sans); font-weight:600; margin-top:2px; }
+.pos-remove{
+  flex:none; width:20px; height:20px; border-radius:3px; border:1px solid var(--line-strong);
+  background: var(--paper-raised); color: var(--ink-dim); font-size:13px; line-height:1; padding:0;
+}
+.pos-remove:hover{ color: var(--danger); border-color: var(--danger); }
+
+.manual{ border-top:1px solid var(--line); padding:8px 12px 10px; }
+.manual-toggle{
+  background:none; border:none; padding:0; font-size:11px; font-weight:500; color: var(--ink-faint);
+  cursor:pointer; font-family: var(--font-sans);
+}
+.manual-toggle:hover{ color: var(--ink-dim); text-decoration:underline; }
+.manual-form{ display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+.manual-form input{
+  width:100%; background: var(--paper); color: var(--ink); border:1px solid var(--line-strong);
+  border-radius:3px; padding:6px 8px; font-size:12px; font-family: var(--font-sans);
+}
+.manual-row{ display:flex; gap:6px; }
+.manual-row input{ width:50%; }
+.manual-submit{ align-self:flex-start; }
+
+.advisor-body{ padding:12px; display:flex; flex-direction:column; gap:10px; }
+.advisor-body select{
+  width:100%; background: var(--paper-raised); color: var(--ink); border:1px solid var(--line-strong);
+  border-radius:3px; padding:7px 8px; font-size:12.5px; font-family: var(--font-sans);
+}
+.advisor-summary{ font-family: var(--font-sans); font-size:11.5px; color: var(--ink-dim); }
+.advisor-summary b{ color: var(--ink); }
+.chan-grid{
+  display:flex; flex-wrap:wrap; gap:4px; max-height:260px; overflow-y:auto; padding:2px;
+}
+.chan-chip{
+  display:flex; align-items:center; gap:4px; padding:3px 6px; border-radius:3px;
+  background: var(--paper); border:1px solid var(--line); font-family: var(--font-sans); font-size:10.5px;
+  cursor:default;
+}
+.chan-chip.conflict{ background: var(--danger-soft); border-color:#d9a4a8; color:#7a1620; }
+.chan-dot{ width:6px; height:6px; border-radius:50%; flex:none; }
+.chan-dot.ok{ background: var(--ok); }
+.chan-dot.bad{ background: var(--danger); }
+
+.foot-note{ font-size:11px; color: var(--ink-faint); padding:14px 2px 0; line-height:1.6; }
+.foot-note code{ font-family: var(--font-mono); background: var(--paper-raised); border:1px solid var(--line); padding:1px 4px; border-radius:2px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <span class="bar" style="height:38%"></span>
+        <span class="bar" style="height:78%"></span>
+        <span class="bar" style="height:55%"></span>
+      </span>
+      <div>
+        <h1>Spectre</h1>
+        <p>On-set frequency coordination</p>
+      </div>
+    </div>
+    <span id="statusPill" class="status-pill">No frequency placed</span>
+    <div class="actions">
+      <button id="btnReset" class="danger" title="Clear all frequencies on this band">Reset</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <div class="panel-head">
+        <div class="band-tabs" id="bandTabs"></div>
+      </div>
+      <div class="spectrum-body">
+        <div class="spectrum-labels" id="spectrumLabels"></div>
+        <div class="spectrum-scroll" id="spectrumScroll">
+          <div class="spectrum-track-inner" id="spectrumTrack"></div>
+        </div>
+        <div class="scroll-fade" id="scrollFade"></div>
+      </div>
+    </section>
+
+    <div class="below-row">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Frequencies in use</h2>
+          <span class="hint" id="posCount"></span>
+        </div>
+        <ul class="pos-list" id="posList"></ul>
+        <div class="manual">
+          <button type="button" class="manual-toggle" id="manualToggle">+ Add device</button>
+          <div class="manual-form" id="manualForm" hidden>
+            <input type="text" id="manualLabel" placeholder="Name (e.g. walkie channel 3)" />
+            <div class="manual-row">
+              <input type="number" step="0.1" id="manualFreq" placeholder="Frequency MHz" />
+              <input type="number" step="0.1" id="manualBw" placeholder="Bandwidth MHz" />
+            </div>
+            <button type="button" class="manual-submit" id="manualSubmit">Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Best channel</h2></div>
+        <div class="advisor-body">
+          <select id="advisorFamily"></select>
+          <div class="advisor-summary" id="advisorSummary"></div>
+          <div class="chan-grid" id="advisorGrid"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <p class="foot-note">
+    Conflict = direct overlap of [center ± width/2] ranges, no guard band.
+    Each band (2.4 / 5 / 6 GHz) keeps its own independent set — switching bands never mixes their frequencies.<br>
+    Database: <code>channels.json</code> (editable — see <code>README.md</code>). No build step: edit it and reload the page.
+  </p>
+</div>
+
+<div id="tooltip"></div>
+
+<script src="channels.json"></script>
+<script>
+const ABBR = {
+  "ARRI White Channel":"AWC", "CINE RT":"CRT", "WIFI":"WIFI", "Preston G4":"PG4",
+  "Preston Mark 2":"PM2", "DJI Video Transmitters":"DJI",
+  "Teradek":"TRK", "DJI":"DJI5", "Teradek Bolt6":"TB6"
+};
+
+const PALETTE = ["#1f4e8c","#1f9e8e","#8a4fd1","#c23a8a","#b8860b","#55627a"];
+
+const POS_KEY = "spectre_positions_by_band_v1";
+const ENABLED_KEY = "spectre_enabled_by_band_v1";
+const BAND_KEY = "spectre_current_band_v1";
+const LANE_LABEL_WIDTH = 150;
+const CHAN_MIN_PX = 36;
+const OVERVIEW_MIN_PX = 34;
+const PX_PER_MHZ = 16, MIN_TRACK = 1600, MAX_TRACK = 5200;
+
+const DATA = window.SPECTRE_DATA;
+
+let allPositions = {};   // { bandId: [position, ...] }
+let allEnabled = {};     // { bandId: { deviceName: bool } }
+let currentBandId = null;
+let positions = [];      // alias for allPositions[currentBandId], kept in sync
+let deviceEnabled = {};  // alias for allEnabled[currentBandId]
+let DOMAIN_MIN, DOMAIN_MAX, SPAN, TRACK_WIDTH;
+
+function currentBand(){ return DATA.bands.find(b => b.id === currentBandId); }
+
+function init(){
+  allPositions = loadJSON(POS_KEY, {});
+  allEnabled = loadJSON(ENABLED_KEY, {});
+  currentBandId = loadJSON(BAND_KEY, null);
+  if(!DATA.bands.some(b => b.id === currentBandId)) currentBandId = DATA.bands[0].id;
+  loadBandState();
+  wireControls();
+  renderBandTabs();
+  renderAll();
+}
+
+function loadBandState(){
+  positions = allPositions[currentBandId] || (allPositions[currentBandId] = []);
+  deviceEnabled = allEnabled[currentBandId] || (allEnabled[currentBandId] = {});
+  for(const d of currentBand().devices) if(!(d.name in deviceEnabled)) deviceEnabled[d.name] = true;
+}
+
+function switchBand(bandId){
+  if(bandId === currentBandId) return;
+  currentBandId = bandId;
+  try{ localStorage.setItem(BAND_KEY, JSON.stringify(currentBandId)); }catch(e){}
+  loadBandState();
+  renderBandTabs();
+  renderAll();
+}
+
+function pct(freq){ return ((freq - DOMAIN_MIN) / SPAN) * 100; }
+function pxToPct(px){ return (px / TRACK_WIDTH) * 100; }
+
+function computeDomain(){
+  let lo = Infinity, hi = -Infinity;
+  for(const d of currentBand().devices){
+    for(const c of d.channels){
+      const l = c.freqMHz - c.bandwidthMHz/2, h = c.freqMHz + c.bandwidthMHz/2;
+      if(l < lo) lo = l;
+      if(h > hi) hi = h;
+    }
+  }
+  for(const p of positions){
+    const l = p.freqMHz - p.bandwidthMHz/2, h = p.freqMHz + p.bandwidthMHz/2;
+    if(l < lo) lo = l;
+    if(h > hi) hi = h;
+  }
+  DOMAIN_MIN = lo - 3; DOMAIN_MAX = hi + 3; SPAN = DOMAIN_MAX - DOMAIN_MIN;
+  TRACK_WIDTH = Math.round(Math.min(MAX_TRACK, Math.max(MIN_TRACK, SPAN * PX_PER_MHZ)));
+}
+
+function loadJSON(key, fallback){
+  try{
+    const raw = localStorage.getItem(key);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return fallback;
+}
+function savePositions(){
+  try{ localStorage.setItem(POS_KEY, JSON.stringify(allPositions)); }catch(e){}
+}
+function saveEnabled(){
+  try{ localStorage.setItem(ENABLED_KEY, JSON.stringify(allEnabled)); }catch(e){}
+}
+
+function nextColor(){
+  const used = new Set(positions.map(p=>p.color));
+  for(const c of PALETTE) if(!used.has(c)) return c;
+  return PALETTE[positions.length % PALETTE.length];
+}
+
+// contrast-aware label color for an arbitrary background hex
+function textColorFor(hex){
+  const c = hex.replace("#","");
+  const r = parseInt(c.substr(0,2),16), g = parseInt(c.substr(2,2),16), b = parseInt(c.substr(4,2),16);
+  const lin = v => { v /= 255; return v <= 0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055, 2.4); };
+  const L = 0.2126*lin(r) + 0.7152*lin(g) + 0.0722*lin(b);
+  return L > 0.42 ? "#1b1f1c" : "#ffffff";
+}
+// solid pastel tint (opaque) — used instead of alpha blending so the fill
+// never looks washed out or picks up whatever is layered behind it
+function tint(hex, amount){
+  const c = hex.replace("#","");
+  const r = parseInt(c.substr(0,2),16), g = parseInt(c.substr(2,2),16), b = parseInt(c.substr(4,2),16);
+  const mix = v => Math.round(v + (255 - v) * amount);
+  return "rgb(" + mix(r) + "," + mix(g) + "," + mix(b) + ")";
+}
+
+function overlaps(freqA, bwA, freqB, bwB){
+  return Math.abs(freqA - freqB) < (bwA + bwB) / 2;
+}
+
+function findPosition(family, chanId){
+  return positions.find(p => p.family === family && p.chanId === chanId);
+}
+
+function positionDetail(p){
+  return p.family === "Manual" ? ("Custom · " + p.freqMHz + " MHz") : (p.family + " " + p.chanId + " · " + p.freqMHz + " MHz");
+}
+
+function togglePosition(family, chanId, freqMHz, bandwidthMHz){
+  const existing = findPosition(family, chanId);
+  if(existing){
+    positions = positions.filter(p => p !== existing);
+  } else {
+    positions.push({
+      family, chanId, freqMHz, bandwidthMHz,
+      label: (ABBR[family] || family) + "-" + chanId,
+      color: nextColor()
+    });
+  }
+  allPositions[currentBandId] = positions;
+  savePositions();
+  renderAll();
+}
+
+// ---- tooltip ----
+const tooltipEl = document.getElementById("tooltip");
+function showTooltip(target, title, sub){
+  tooltipEl.innerHTML = '<div class="tt-title">' + title + '</div>' + (sub ? '<div class="tt-sub">' + sub + '</div>' : '');
+  const r = target.getBoundingClientRect();
+  tooltipEl.classList.add("show");
+  const tw = tooltipEl.offsetWidth;
+  let left = r.left + r.width/2 - tw/2;
+  left = Math.max(6, Math.min(left, window.innerWidth - tw - 6));
+  tooltipEl.style.left = left + "px";
+  tooltipEl.style.top = (r.top - tooltipEl.offsetHeight - 8) + "px";
+}
+function hideTooltip(){ tooltipEl.classList.remove("show"); }
+
+// ---- rendering ----
+const bandTabs = document.getElementById("bandTabs");
+const spectrumLabels = document.getElementById("spectrumLabels");
+const spectrumTrack = document.getElementById("spectrumTrack");
+const spectrumScroll = document.getElementById("spectrumScroll");
+const scrollFade = document.getElementById("scrollFade");
+const posList = document.getElementById("posList");
+const posCount = document.getElementById("posCount");
+const statusPill = document.getElementById("statusPill");
+const advisorFamily = document.getElementById("advisorFamily");
+const advisorSummary = document.getElementById("advisorSummary");
+const advisorGrid = document.getElementById("advisorGrid");
+
+function renderBandTabs(){
+  bandTabs.innerHTML = "";
+  for(const b of DATA.bands){
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "band-tab" + (b.id === currentBandId ? " active" : "");
+    btn.textContent = b.label;
+    btn.addEventListener("click", () => switchBand(b.id));
+    bandTabs.appendChild(btn);
+  }
+}
+
+function buildRuler(){
+  const ruler = document.createElement("div");
+  ruler.className = "ruler";
+  const step = SPAN > 400 ? 25 : 5;
+  const majorEvery = SPAN > 400 ? 100 : 25;
+  const start = Math.ceil(DOMAIN_MIN / step) * step;
+  for(let f = start; f <= DOMAIN_MAX; f += step){
+    const major = f % majorEvery === 0;
+    const t = document.createElement("div");
+    t.className = "tick" + (major ? " major" : "");
+    t.style.left = pct(f) + "%";
+    const label = document.createElement("span");
+    label.textContent = f;
+    t.appendChild(label);
+    ruler.appendChild(t);
+  }
+  return ruler;
+}
+
+function buildGridOverlay(){
+  const overlay = document.createElement("div");
+  overlay.className = "grid-overlay";
+  const step = SPAN > 400 ? 25 : 5;
+  const majorEvery = SPAN > 400 ? 100 : 25;
+  const start = Math.ceil(DOMAIN_MIN / step) * step;
+  for(let f = start; f <= DOMAIN_MAX; f += step){
+    const line = document.createElement("div");
+    line.className = "grid-line" + (f % majorEvery === 0 ? " major" : "");
+    line.style.left = pct(f) + "%";
+    overlay.appendChild(line);
+  }
+  return overlay;
+}
+
+// minimum rendered width (in %) for a frequency block, so narrow-bandwidth
+// channels stay wide enough to hold a readable label
+function boxStyle(freq, bw, minPx){
+  const loPct = pct(freq - bw/2), hiPct = pct(freq + bw/2);
+  let leftPct = loPct, widthPct = hiPct - loPct;
+  const minPct = pxToPct(minPx);
+  if(widthPct < minPct){
+    const centerPct = pct(freq);
+    leftPct = centerPct - minPct/2;
+    widthPct = minPct;
+  }
+  return { leftPct, widthPct };
+}
+
+// greedy row assignment so overlapping boxes (e.g. WiFi channels that
+// genuinely overlap in the real world) stack instead of hiding each other.
+// Mutates each item with a .row index; returns the highest row used.
+function packRows(items, gapPx){
+  const rowRight = [];
+  let maxRow = 0;
+  for(const it of items){
+    let row = 0;
+    while(rowRight[row] !== undefined && it.leftPx < rowRight[row] + gapPx) row++;
+    rowRight[row] = it.leftPx + it.widthPx;
+    it.row = row;
+    if(row > maxRow) maxRow = row;
+  }
+  return maxRow;
+}
+
+function buildOverviewRow(){
+  const label = document.createElement("div");
+  label.className = "row-label overview-label";
+  label.innerHTML = '<span class="name">Overview</span><span class="meta">selected channels</span>';
+  const track = document.createElement("div");
+  track.className = "row-track overview-track";
+
+  const ROW_H = 22, GAP_PX = 3;
+  const sorted = [...positions].sort((a,b) => a.freqMHz - b.freqMHz);
+
+  const items = sorted.map(p => {
+    // label must fully fit: size the box from the text, not a flat constant
+    const labelMinPx = Math.max(OVERVIEW_MIN_PX, p.label.length * 6.4 + 12);
+    const box = boxStyle(p.freqMHz, p.bandwidthMHz, labelMinPx);
+    return {
+      p, box,
+      leftPx: (box.leftPct / 100) * TRACK_WIDTH,
+      widthPx: (box.widthPct / 100) * TRACK_WIDTH
+    };
+  });
+  const maxRow = packRows(items, GAP_PX);
+
+  for(const it of items){
+    const { p, box } = it;
+    const conflictsWith = positions.filter(o => o !== p && overlaps(p.freqMHz, p.bandwidthMHz, o.freqMHz, o.bandwidthMHz));
+
+    const rect = document.createElement("div");
+    rect.className = "occ-rect" + (conflictsWith.length ? " conflict" : "");
+    rect.style.left = box.leftPct + "%";
+    rect.style.width = box.widthPct + "%";
+    rect.style.top = (4 + it.row * (ROW_H + GAP_PX)) + "px";
+    rect.style.height = ROW_H + "px";
+    rect.style.background = p.color;
+    rect.style.color = textColorFor(p.color);
+    rect.textContent = p.label;
+    const sub = positionDetail(p) + (conflictsWith.length ? " · conflicts with " + conflictsWith.map(c=>c.label).join(", ") : "");
+    rect.addEventListener("mouseenter", () => showTooltip(rect, p.label, sub));
+    rect.addEventListener("mouseleave", hideTooltip);
+    track.appendChild(rect);
+  }
+
+  const rowHeight = Math.max(32, 8 + (maxRow + 1) * (ROW_H + GAP_PX));
+  label.style.minHeight = rowHeight + "px";
+  track.style.minHeight = rowHeight + "px";
+
+  return { label, track };
+}
+
+function deviceMeta(device){
+  const widths = [...new Set(device.channels.map(c => c.bandwidthMHz))].sort((a,b) => a-b);
+  return widths.join("/") + " MHz · " + device.channels.length + " ch";
+}
+
+function buildDeviceRow(device){
+  const enabled = deviceEnabled[device.name] !== false;
+
+  const label = document.createElement("div");
+  label.className = "row-label" + (enabled ? "" : " off");
+  const checkWrap = document.createElement("label");
+  checkWrap.className = "row-check";
+  const check = document.createElement("input");
+  check.type = "checkbox";
+  check.checked = enabled;
+  check.addEventListener("change", () => {
+    deviceEnabled[device.name] = check.checked;
+    saveEnabled();
+    renderAll();
+  });
+  const nameSpan = document.createElement("span");
+  nameSpan.className = "name";
+  nameSpan.textContent = device.name;
+  checkWrap.appendChild(check);
+  checkWrap.appendChild(nameSpan);
+  const meta = document.createElement("span");
+  meta.className = "meta";
+  meta.textContent = deviceMeta(device);
+  label.appendChild(checkWrap);
+  label.appendChild(meta);
+
+  const track = document.createElement("div");
+  track.className = "row-track";
+
+  if(!enabled){
+    const collapsedHeight = 26;
+    label.style.minHeight = collapsedHeight + "px";
+    track.style.minHeight = collapsedHeight + "px";
+    return { label, track };
+  }
+
+  const CHAN_ROW_H = 22, CHAN_GAP_PX = 2;
+  const items = device.channels.map(c => {
+    const box = boxStyle(c.freqMHz, c.bandwidthMHz, CHAN_MIN_PX);
+    return { c, box, leftPx: (box.leftPct/100)*TRACK_WIDTH, widthPx: (box.widthPct/100)*TRACK_WIDTH };
+  });
+  const maxRow = packRows(items, CHAN_GAP_PX);
+
+  for(const it of items){
+    const { c, box } = it;
+    const selected = findPosition(device.name, c.id);
+    const conflict = !selected && positions.some(p => overlaps(c.freqMHz, c.bandwidthMHz, p.freqMHz, p.bandwidthMHz));
+
+    const el = document.createElement("div");
+    el.className = "chan" + (c.type !== "video" ? " aux" : "") + (conflict ? " conflict" : "") + (selected ? " selected" : "");
+    el.style.left = box.leftPct + "%";
+    el.style.width = box.widthPct + "%";
+    el.style.top = (2 + it.row * (CHAN_ROW_H + CHAN_GAP_PX)) + "px";
+    el.style.height = CHAN_ROW_H + "px";
+    if(selected) el.style.background = tint(selected.color, 0.5);
+    el.textContent = c.id;
+    el.tabIndex = 0;
+
+    const statusText = selected ? "placed — " + selected.label : conflict ? "conflicting" : "free";
+    const title = device.name + " · channel " + c.id;
+    const sub = c.freqMHz + " MHz · " + c.bandwidthMHz + " MHz wide" + (c.type !== "video" ? " · " + c.type : "") + " · " + statusText;
+    el.addEventListener("mouseenter", () => showTooltip(el, title, sub));
+    el.addEventListener("mouseleave", hideTooltip);
+    el.addEventListener("click", () => togglePosition(device.name, c.id, c.freqMHz, c.bandwidthMHz));
+    el.addEventListener("keydown", (e) => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); el.click(); } });
+    track.appendChild(el);
+  }
+
+  const rowHeight = Math.max(32, 6 + (maxRow + 1) * (CHAN_ROW_H + CHAN_GAP_PX));
+  label.style.minHeight = rowHeight + "px";
+  track.style.minHeight = rowHeight + "px";
+
+  return { label, track };
+}
+
+function renderSpectrum(){
+  computeDomain();
+  spectrumTrack.style.width = TRACK_WIDTH + "px";
+  spectrumLabels.innerHTML = "";
+  spectrumTrack.innerHTML = "";
+
+  const spacer = document.createElement("div");
+  spacer.className = "ruler-spacer";
+  spectrumLabels.appendChild(spacer);
+  spectrumTrack.appendChild(buildGridOverlay());
+  spectrumTrack.appendChild(buildRuler());
+
+  const rows = [buildOverviewRow(), ...currentBand().devices.map(buildDeviceRow)];
+  rows.forEach((row, i) => {
+    if(i > 0){ row.label.classList.add("row-line"); row.track.classList.add("row-line"); }
+    spectrumLabels.appendChild(row.label);
+    spectrumTrack.appendChild(row.track);
+  });
+
+  // The label's text can wrap taller than its channel-derived track height
+  // (or the reverse for a busy lane) — measure both after layout and force
+  // each pair to the taller of the two, so rows never drift out of sync.
+  const heights = rows.map(row => Math.max(
+    row.label.getBoundingClientRect().height,
+    row.track.getBoundingClientRect().height
+  ));
+  rows.forEach((row, i) => {
+    row.label.style.height = heights[i] + "px";
+    row.track.style.height = heights[i] + "px";
+  });
+
+  updateScrollFade();
+}
+
+// shows a soft shadow on the right edge of the spectrum when there's more
+// to see — this band can be much wider than the panel (5/6 GHz especially)
+function updateScrollFade(){
+  const hasOverflow = spectrumScroll.scrollWidth > spectrumScroll.clientWidth + 2;
+  const atEnd = spectrumScroll.scrollLeft + spectrumScroll.clientWidth >= spectrumScroll.scrollWidth - 2;
+  scrollFade.classList.toggle("show", hasOverflow && !atEnd);
+}
+
+function renderPositions(){
+  posList.innerHTML = "";
+  posCount.textContent = positions.length ? positions.length + " placed" : "";
+
+  if(positions.length === 0){
+    const empty = document.createElement("li");
+    empty.className = "pos-empty";
+    empty.textContent = "Click a channel in the spectrum, or add a device manually below.";
+    posList.appendChild(empty);
+  }
+
+  let conflictedCount = 0;
+
+  for(const p of positions){
+    const conflictsWith = positions.filter(o => o !== p && overlaps(p.freqMHz, p.bandwidthMHz, o.freqMHz, o.bandwidthMHz));
+    if(conflictsWith.length) conflictedCount++;
+
+    const li = document.createElement("li");
+    li.className = "pos-item" + (conflictsWith.length ? " conflicted" : "");
+
+    const chip = document.createElement("span");
+    chip.className = "pos-chip";
+    chip.style.background = p.color;
+
+    const main = document.createElement("div");
+    main.className = "pos-main";
+    const input = document.createElement("input");
+    input.className = "pos-label";
+    input.value = p.label;
+    input.addEventListener("change", () => { p.label = input.value || ((ABBR[p.family]||p.family)+"-"+p.chanId); savePositions(); renderSpectrum(); });
+    const sub = document.createElement("div");
+    sub.className = "pos-sub";
+    sub.textContent = positionDetail(p);
+    main.appendChild(input);
+    main.appendChild(sub);
+    if(conflictsWith.length){
+      const flag = document.createElement("div");
+      flag.className = "pos-flag";
+      flag.textContent = "conflicts with " + conflictsWith.map(c=>c.label).join(", ");
+      main.appendChild(flag);
+    }
+
+    const remove = document.createElement("button");
+    remove.className = "pos-remove";
+    remove.textContent = "×";
+    remove.title = "Remove";
+    remove.addEventListener("click", () => {
+      positions = positions.filter(x => x !== p);
+      allPositions[currentBandId] = positions;
+      savePositions();
+      renderAll();
+    });
+
+    li.appendChild(chip);
+    li.appendChild(main);
+    li.appendChild(remove);
+    posList.appendChild(li);
+  }
+
+  if(positions.length === 0){
+    statusPill.textContent = "No frequency placed";
+    statusPill.className = "status-pill";
+  } else if(conflictedCount > 0){
+    statusPill.textContent = conflictedCount + " frequenc" + (conflictedCount>1?"ies":"y") + " in conflict";
+    statusPill.className = "status-pill warn";
+  } else {
+    statusPill.textContent = positions.length + " frequenc" + (positions.length>1?"ies":"y") + " · no conflict";
+    statusPill.className = "status-pill clear";
+  }
+}
+
+function renderAdvisor(){
+  const devices = currentBand().devices;
+  const enabledDevices = devices.filter(d => deviceEnabled[d.name] !== false);
+  const pool = enabledDevices.length ? enabledDevices : devices;
+  const prevValue = advisorFamily.value;
+
+  advisorFamily.innerHTML = "";
+  for(const d of pool){
+    const opt = document.createElement("option");
+    opt.value = d.name;
+    opt.textContent = d.name;
+    advisorFamily.appendChild(opt);
+  }
+  if(pool.some(d => d.name === prevValue)) advisorFamily.value = prevValue;
+
+  const familyName = advisorFamily.value || pool[0].name;
+  const device = pool.find(d => d.name === familyName) || pool[0];
+  advisorGrid.innerHTML = "";
+
+  const evaluated = device.channels.map(c => {
+    const conflictsWith = positions.filter(p => !(p.family===device.name && p.chanId===c.id) && overlaps(c.freqMHz, c.bandwidthMHz, p.freqMHz, p.bandwidthMHz));
+    return { c, conflictsWith };
+  }).sort((a,b) => a.c.freqMHz - b.c.freqMHz);
+
+  const freeCount = evaluated.filter(e => e.conflictsWith.length === 0).length;
+  advisorSummary.innerHTML = '<b>' + freeCount + '</b> free · <b>' + (evaluated.length - freeCount) + '</b> conflicting out of ' + evaluated.length + ' channels';
+
+  for(const e of evaluated){
+    const chip = document.createElement("div");
+    chip.className = "chan-chip" + (e.conflictsWith.length ? " conflict" : "");
+    const dot = document.createElement("span");
+    dot.className = "chan-dot " + (e.conflictsWith.length ? "bad" : "ok");
+    const id = document.createElement("span");
+    id.textContent = e.c.id;
+    chip.appendChild(dot);
+    chip.appendChild(id);
+    const sub = e.c.freqMHz + " MHz" + (e.conflictsWith.length ? " · vs " + e.conflictsWith.map(p=>p.label).join(", ") : " · free");
+    chip.addEventListener("mouseenter", () => showTooltip(chip, device.name + " · channel " + e.c.id, sub));
+    chip.addEventListener("mouseleave", hideTooltip);
+    advisorGrid.appendChild(chip);
+  }
+}
+
+function renderAll(){
+  renderSpectrum();
+  renderPositions();
+  renderAdvisor();
+}
+
+function wireControls(){
+  advisorFamily.addEventListener("change", renderAdvisor);
+  spectrumScroll.addEventListener("scroll", updateScrollFade);
+  window.addEventListener("resize", updateScrollFade);
+
+  document.getElementById("btnReset").addEventListener("click", () => {
+    if(positions.length === 0) return;
+    if(confirm("Remove all frequencies from this band's set?")){
+      positions = [];
+      allPositions[currentBandId] = positions;
+      savePositions();
+      renderAll();
+    }
+  });
+
+  const manualToggle = document.getElementById("manualToggle");
+  const manualForm = document.getElementById("manualForm");
+  manualToggle.addEventListener("click", () => {
+    manualForm.hidden = !manualForm.hidden;
+    manualToggle.textContent = manualForm.hidden ? "+ Add device" : "– Cancel";
+    if(!manualForm.hidden) document.getElementById("manualLabel").focus();
+  });
+  document.getElementById("manualSubmit").addEventListener("click", () => {
+    const labelInput = document.getElementById("manualLabel");
+    const freqInput = document.getElementById("manualFreq");
+    const bwInput = document.getElementById("manualBw");
+    const freq = parseFloat(freqInput.value);
+    const bw = parseFloat(bwInput.value);
+    if(!isFinite(freq) || !isFinite(bw) || bw <= 0){
+      alert("Enter a valid frequency and bandwidth (bandwidth > 0).");
+      return;
+    }
+    positions.push({
+      family: "Manual",
+      chanId: "m" + Date.now(),
+      freqMHz: freq,
+      bandwidthMHz: bw,
+      label: labelInput.value.trim() || ("Manual " + freq + " MHz"),
+      color: nextColor()
+    });
+    allPositions[currentBandId] = positions;
+    savePositions();
+    labelInput.value = ""; freqInput.value = ""; bwInput.value = "";
+    manualForm.hidden = true;
+    manualToggle.textContent = "+ Add device";
+    renderAll();
+  });
+}
+
+init();
+</script>
+</body>
+</html>

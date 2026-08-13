@@ -1,0 +1,2201 @@
+window.SPECTRE_DATA = {
+  "bands": [
+    {
+      "id": "2.4",
+      "label": "2.4 GHz",
+      "devices": [
+        {
+          "name": "ARRI White Channel",
+          "channels": [
+            {
+              "id": "0",
+              "freqMHz": 2410,
+              "bandwidthMHz": 6,
+              "type": "video"
+            },
+            {
+              "id": "1",
+              "freqMHz": 2415,
+              "bandwidthMHz": 6,
+              "type": "video"
+            },
+            {
+              "id": "8",
+              "freqMHz": 2420,
+              "bandwidthMHz": 6,
+              "type": "video"
+            },
+            {
+              "id": "9",
+              "freqMHz": 2425,
+              "bandwidthMHz": 6,
+              "type": "video"
+            },
+            {
+              "id": "2",
+              "freqMHz": 2430,
+              "bandwidthMHz": 6,
+              "type": "video"
+            },
+            {
+              "id": "3",
+              "freqMHz": 2435,
+              "bandwidthMHz": 6,
+              "type": "video"
+            },
+            {
+              "id": "10",
+              "freqMHz": 2440,
+              "bandwidthMHz": 6,
+              "type": "video"
+            },
+            {
+              "id": "11",
+              "freqMHz": 2445,
+              "bandwidthMHz": 6,
+              "type": "video"
+            },
+            {
+              "id": "4",
+              "freqMHz": 2450,
+              "bandwidthMHz": 6,
+              "type": "video"
+            },
+            {
+              "id": "5",
+              "freqMHz": 2455,
+              "bandwidthMHz": 6,
+              "type": "video"
+            },
+            {
+              "id": "12",
+              "freqMHz": 2460,
+              "bandwidthMHz": 6,
+              "type": "video"
+            },
+            {
+              "id": "13",
+              "freqMHz": 2465,
+              "bandwidthMHz": 6,
+              "type": "video"
+            },
+            {
+              "id": "6",
+              "freqMHz": 2470,
+              "bandwidthMHz": 6,
+              "type": "video"
+            },
+            {
+              "id": "7",
+              "freqMHz": 2475,
+              "bandwidthMHz": 6,
+              "type": "video"
+            }
+          ]
+        },
+        {
+          "name": "CINE RT",
+          "channels": [
+            {
+              "id": "7a",
+              "freqMHz": 2403,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "1a",
+              "freqMHz": 2405,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "5a",
+              "freqMHz": 2407,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "2a",
+              "freqMHz": 2410,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "6a",
+              "freqMHz": 2412,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "3a",
+              "freqMHz": 2415,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "4a",
+              "freqMHz": 2417,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "1b",
+              "freqMHz": 2420,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "5b",
+              "freqMHz": 2422,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "2b",
+              "freqMHz": 2425,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "6b",
+              "freqMHz": 2428,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "3b",
+              "freqMHz": 2430,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "4b",
+              "freqMHz": 2434,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "bug1",
+              "freqMHz": 2435,
+              "bandwidthMHz": 1,
+              "type": "bug"
+            },
+            {
+              "id": "bug5",
+              "freqMHz": 2437,
+              "bandwidthMHz": 1,
+              "type": "bug"
+            },
+            {
+              "id": "bug2",
+              "freqMHz": 2440,
+              "bandwidthMHz": 1,
+              "type": "bug"
+            },
+            {
+              "id": "bug6",
+              "freqMHz": 2442,
+              "bandwidthMHz": 1,
+              "type": "bug"
+            },
+            {
+              "id": "bug3",
+              "freqMHz": 2445,
+              "bandwidthMHz": 1,
+              "type": "bug"
+            },
+            {
+              "id": "8a",
+              "freqMHz": 2447,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "sync1",
+              "freqMHz": 2450,
+              "bandwidthMHz": 1,
+              "type": "sync"
+            },
+            {
+              "id": "sync5",
+              "freqMHz": 2452,
+              "bandwidthMHz": 1,
+              "type": "sync"
+            },
+            {
+              "id": "sync2",
+              "freqMHz": 2455,
+              "bandwidthMHz": 1,
+              "type": "sync"
+            },
+            {
+              "id": "sync6",
+              "freqMHz": 2457,
+              "bandwidthMHz": 1,
+              "type": "sync"
+            },
+            {
+              "id": "sync3",
+              "freqMHz": 2460,
+              "bandwidthMHz": 1,
+              "type": "sync"
+            },
+            {
+              "id": "sync4",
+              "freqMHz": 2462,
+              "bandwidthMHz": 1,
+              "type": "sync"
+            },
+            {
+              "id": "7b",
+              "freqMHz": 2464,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "8b",
+              "freqMHz": 2466,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "sync7",
+              "freqMHz": 2470,
+              "bandwidthMHz": 1,
+              "type": "sync"
+            },
+            {
+              "id": "sync8",
+              "freqMHz": 2472,
+              "bandwidthMHz": 1,
+              "type": "sync"
+            },
+            {
+              "id": "bug8",
+              "freqMHz": 2476,
+              "bandwidthMHz": 1,
+              "type": "bug"
+            },
+            {
+              "id": "bug7",
+              "freqMHz": 2478,
+              "bandwidthMHz": 1,
+              "type": "bug"
+            },
+            {
+              "id": "bug4",
+              "freqMHz": 2480,
+              "bandwidthMHz": 1,
+              "type": "bug"
+            }
+          ]
+        },
+        {
+          "name": "WIFI",
+          "channels": [
+            {
+              "id": "1",
+              "freqMHz": 2412,
+              "bandwidthMHz": 22,
+              "type": "video"
+            },
+            {
+              "id": "2",
+              "freqMHz": 2417,
+              "bandwidthMHz": 22,
+              "type": "video"
+            },
+            {
+              "id": "3",
+              "freqMHz": 2422,
+              "bandwidthMHz": 22,
+              "type": "video"
+            },
+            {
+              "id": "4",
+              "freqMHz": 2427,
+              "bandwidthMHz": 22,
+              "type": "video"
+            },
+            {
+              "id": "5",
+              "freqMHz": 2432,
+              "bandwidthMHz": 22,
+              "type": "video"
+            },
+            {
+              "id": "6",
+              "freqMHz": 2437,
+              "bandwidthMHz": 22,
+              "type": "video"
+            },
+            {
+              "id": "7",
+              "freqMHz": 2442,
+              "bandwidthMHz": 22,
+              "type": "video"
+            },
+            {
+              "id": "8",
+              "freqMHz": 2448,
+              "bandwidthMHz": 22,
+              "type": "video"
+            },
+            {
+              "id": "9",
+              "freqMHz": 2452,
+              "bandwidthMHz": 22,
+              "type": "video"
+            },
+            {
+              "id": "10",
+              "freqMHz": 2457,
+              "bandwidthMHz": 22,
+              "type": "video"
+            },
+            {
+              "id": "11",
+              "freqMHz": 2462,
+              "bandwidthMHz": 22,
+              "type": "video"
+            },
+            {
+              "id": "12",
+              "freqMHz": 2467,
+              "bandwidthMHz": 22,
+              "type": "video"
+            },
+            {
+              "id": "13",
+              "freqMHz": 2472,
+              "bandwidthMHz": 22,
+              "type": "video"
+            },
+            {
+              "id": "14",
+              "freqMHz": 2484,
+              "bandwidthMHz": 22,
+              "type": "video"
+            }
+          ]
+        },
+        {
+          "name": "Preston G4",
+          "channels": [
+            {
+              "id": "0/30",
+              "freqMHz": 2402,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "1/31",
+              "freqMHz": 2404,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "2/32",
+              "freqMHz": 2406,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "3/33",
+              "freqMHz": 2408,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "4/34",
+              "freqMHz": 2410,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "5/35",
+              "freqMHz": 2412,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "6/36",
+              "freqMHz": 2414,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "7/37",
+              "freqMHz": 2416,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "8/38",
+              "freqMHz": 2418,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "9/39",
+              "freqMHz": 2420,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "10/40",
+              "freqMHz": 2424,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "11/41",
+              "freqMHz": 2428,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "12/42",
+              "freqMHz": 2432,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "13/43",
+              "freqMHz": 2436,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "14/44",
+              "freqMHz": 2440,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "15/45",
+              "freqMHz": 2444,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "16/46",
+              "freqMHz": 2448,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "17/47",
+              "freqMHz": 2452,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "18/48",
+              "freqMHz": 2454,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "19/49",
+              "freqMHz": 2456,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "20/50",
+              "freqMHz": 2458,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "21/51",
+              "freqMHz": 2460,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "22/52",
+              "freqMHz": 2462,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "23/53",
+              "freqMHz": 2464,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "24/54",
+              "freqMHz": 2466,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "25/55",
+              "freqMHz": 2468,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "26/56",
+              "freqMHz": 2470,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "27/57",
+              "freqMHz": 2472,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "28/58",
+              "freqMHz": 2474,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "29/59",
+              "freqMHz": 2476,
+              "bandwidthMHz": 1,
+              "type": "video"
+            }
+          ]
+        },
+        {
+          "name": "Preston Mark 2",
+          "channels": [
+            {
+              "id": "0",
+              "freqMHz": 2412,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "1",
+              "freqMHz": 2414,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "2",
+              "freqMHz": 2416,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "3",
+              "freqMHz": 2418,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "4",
+              "freqMHz": 2420,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "5",
+              "freqMHz": 2422,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "6",
+              "freqMHz": 2423,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "7",
+              "freqMHz": 2425,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "8",
+              "freqMHz": 2427,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "9",
+              "freqMHz": 2429,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "10",
+              "freqMHz": 2431,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "11",
+              "freqMHz": 2433,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "12",
+              "freqMHz": 2435,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "13",
+              "freqMHz": 2437,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "14",
+              "freqMHz": 2439,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "15",
+              "freqMHz": 2441,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "16",
+              "freqMHz": 2442,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "17",
+              "freqMHz": 2444,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "18",
+              "freqMHz": 2446,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "19",
+              "freqMHz": 2448,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "20",
+              "freqMHz": 2450,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "21",
+              "freqMHz": 2452,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "22",
+              "freqMHz": 2454,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "23",
+              "freqMHz": 2456,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "24",
+              "freqMHz": 2458,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "25",
+              "freqMHz": 2460,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "26",
+              "freqMHz": 2462,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "27",
+              "freqMHz": 2464,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "28",
+              "freqMHz": 2466,
+              "bandwidthMHz": 1,
+              "type": "video"
+            },
+            {
+              "id": "29",
+              "freqMHz": 2468,
+              "bandwidthMHz": 1,
+              "type": "video"
+            }
+          ]
+        },
+        {
+          "name": "DJI Video Transmitters",
+          "channels": [
+            {
+              "id": "13",
+              "freqMHz": 2435,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "14",
+              "freqMHz": 2461,
+              "bandwidthMHz": 20,
+              "type": "video"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "label": "5 GHz",
+      "devices": [
+        {
+          "name": "Teradek",
+          "channels": [
+            {
+              "id": "5160",
+              "freqMHz": 5160,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5180",
+              "freqMHz": 5180,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5200",
+              "freqMHz": 5200,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5220",
+              "freqMHz": 5220,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5240",
+              "freqMHz": 5240,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5260",
+              "freqMHz": 5260,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5280",
+              "freqMHz": 5280,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5300",
+              "freqMHz": 5300,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5320",
+              "freqMHz": 5320,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5340",
+              "freqMHz": 5340,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5480",
+              "freqMHz": 5480,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5500",
+              "freqMHz": 5500,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5520",
+              "freqMHz": 5520,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5540",
+              "freqMHz": 5540,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5560",
+              "freqMHz": 5560,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5580",
+              "freqMHz": 5580,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5600",
+              "freqMHz": 5600,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5620",
+              "freqMHz": 5620,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5640",
+              "freqMHz": 5640,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5660",
+              "freqMHz": 5660,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5680",
+              "freqMHz": 5680,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5700",
+              "freqMHz": 5700,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5720",
+              "freqMHz": 5720,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5740",
+              "freqMHz": 5740,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5745",
+              "freqMHz": 5745,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5760",
+              "freqMHz": 5760,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5765",
+              "freqMHz": 5765,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5780",
+              "freqMHz": 5780,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5785",
+              "freqMHz": 5785,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5800",
+              "freqMHz": 5800,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5805",
+              "freqMHz": 5805,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5820",
+              "freqMHz": 5820,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5825",
+              "freqMHz": 5825,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5840",
+              "freqMHz": 5840,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5190",
+              "freqMHz": 5190,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "5230",
+              "freqMHz": 5230,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "5270",
+              "freqMHz": 5270,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "5310",
+              "freqMHz": 5310,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "5510",
+              "freqMHz": 5510,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "5550",
+              "freqMHz": 5550,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "5590",
+              "freqMHz": 5590,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "5630",
+              "freqMHz": 5630,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "5670",
+              "freqMHz": 5670,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "5690",
+              "freqMHz": 5690,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "5710",
+              "freqMHz": 5710,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "5750",
+              "freqMHz": 5750,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "5755",
+              "freqMHz": 5755,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "5790",
+              "freqMHz": 5790,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "5795",
+              "freqMHz": 5795,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "5830",
+              "freqMHz": 5830,
+              "bandwidthMHz": 40,
+              "type": "video"
+            }
+          ]
+        },
+        {
+          "name": "DJI",
+          "channels": [
+            {
+              "id": "1",
+              "freqMHz": 5500,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "2",
+              "freqMHz": 5520,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "3",
+              "freqMHz": 5540,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "4",
+              "freqMHz": 5560,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5",
+              "freqMHz": 5580,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6",
+              "freqMHz": 5660,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "7",
+              "freqMHz": 5680,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "8",
+              "freqMHz": 5700,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "9",
+              "freqMHz": 5760,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "10",
+              "freqMHz": 5786,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "11",
+              "freqMHz": 5812,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "12",
+              "freqMHz": 5838,
+              "bandwidthMHz": 20,
+              "type": "video"
+            }
+          ]
+        },
+        {
+          "name": "WIFI",
+          "channels": [
+            {
+              "id": "32",
+              "freqMHz": 5160,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "36",
+              "freqMHz": 5180,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "40",
+              "freqMHz": 5200,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "44",
+              "freqMHz": 5220,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "48",
+              "freqMHz": 5240,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "52",
+              "freqMHz": 5260,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "56",
+              "freqMHz": 5280,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "60",
+              "freqMHz": 5300,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "64",
+              "freqMHz": 5320,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "68",
+              "freqMHz": 5340,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "96",
+              "freqMHz": 5480,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "100",
+              "freqMHz": 5500,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "104",
+              "freqMHz": 5520,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "108",
+              "freqMHz": 5540,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "112",
+              "freqMHz": 5560,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "116",
+              "freqMHz": 5580,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "120",
+              "freqMHz": 5600,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "124",
+              "freqMHz": 5620,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "128",
+              "freqMHz": 5640,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "132",
+              "freqMHz": 5660,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "136",
+              "freqMHz": 5680,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "140",
+              "freqMHz": 5700,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "144",
+              "freqMHz": 5720,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "149",
+              "freqMHz": 5745,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "153",
+              "freqMHz": 5765,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "157",
+              "freqMHz": 5785,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "161",
+              "freqMHz": 5805,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "165",
+              "freqMHz": 5825,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "169",
+              "freqMHz": 5845,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "173",
+              "freqMHz": 5865,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "177",
+              "freqMHz": 5885,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "38",
+              "freqMHz": 5190,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "46",
+              "freqMHz": 5230,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "54",
+              "freqMHz": 5310,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "102",
+              "freqMHz": 5560,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "110",
+              "freqMHz": 5550,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "118",
+              "freqMHz": 5590,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "126",
+              "freqMHz": 5630,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "134",
+              "freqMHz": 5670,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "142",
+              "freqMHz": 5710,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "151",
+              "freqMHz": 5755,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "159",
+              "freqMHz": 5795,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "167",
+              "freqMHz": 5835,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "171",
+              "freqMHz": 5875,
+              "bandwidthMHz": 40,
+              "type": "video"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "label": "6 GHz",
+      "devices": [
+        {
+          "name": "Teradek Bolt6",
+          "channels": [
+            {
+              "id": "5935",
+              "freqMHz": 5935,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5955",
+              "freqMHz": 5955,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5975",
+              "freqMHz": 5975,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5995",
+              "freqMHz": 5995,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6015",
+              "freqMHz": 6015,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6035",
+              "freqMHz": 6035,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6055",
+              "freqMHz": 6055,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6075",
+              "freqMHz": 6075,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6095",
+              "freqMHz": 6095,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6115",
+              "freqMHz": 6115,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6135",
+              "freqMHz": 6135,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6155",
+              "freqMHz": 6155,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6175",
+              "freqMHz": 6175,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6195",
+              "freqMHz": 6195,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6215",
+              "freqMHz": 6215,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6235",
+              "freqMHz": 6235,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6255",
+              "freqMHz": 6255,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6275",
+              "freqMHz": 6275,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6295",
+              "freqMHz": 6295,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6315",
+              "freqMHz": 6315,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6335",
+              "freqMHz": 6335,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6355",
+              "freqMHz": 6355,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6375",
+              "freqMHz": 6375,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6395",
+              "freqMHz": 6395,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "6415",
+              "freqMHz": 6415,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5965",
+              "freqMHz": 5965,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "6005",
+              "freqMHz": 6005,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "6045",
+              "freqMHz": 6045,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "6085",
+              "freqMHz": 6085,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "6125",
+              "freqMHz": 6125,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "6165",
+              "freqMHz": 6165,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "6205",
+              "freqMHz": 6205,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "6245",
+              "freqMHz": 6245,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "6285",
+              "freqMHz": 6285,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "6325",
+              "freqMHz": 6325,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "6365",
+              "freqMHz": 6365,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "6405",
+              "freqMHz": 6405,
+              "bandwidthMHz": 40,
+              "type": "video"
+            }
+          ]
+        },
+        {
+          "name": "WIFI",
+          "channels": [
+            {
+              "id": "2",
+              "freqMHz": 5935,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "1",
+              "freqMHz": 5955,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "5",
+              "freqMHz": 5975,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "9",
+              "freqMHz": 5995,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "13",
+              "freqMHz": 6015,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "17",
+              "freqMHz": 6035,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "21",
+              "freqMHz": 6055,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "25",
+              "freqMHz": 6075,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "29",
+              "freqMHz": 6095,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "33",
+              "freqMHz": 6115,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "37",
+              "freqMHz": 6135,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "41",
+              "freqMHz": 6155,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "45",
+              "freqMHz": 6175,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "49",
+              "freqMHz": 6195,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "53",
+              "freqMHz": 6215,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "57",
+              "freqMHz": 6235,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "61",
+              "freqMHz": 6255,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "65",
+              "freqMHz": 6275,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "69",
+              "freqMHz": 6295,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "73",
+              "freqMHz": 6315,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "77",
+              "freqMHz": 6335,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "81",
+              "freqMHz": 6355,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "85",
+              "freqMHz": 6375,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "89",
+              "freqMHz": 6395,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "93",
+              "freqMHz": 6415,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "97",
+              "freqMHz": 6435,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "101",
+              "freqMHz": 6455,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "105",
+              "freqMHz": 6475,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "109",
+              "freqMHz": 6495,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "113",
+              "freqMHz": 6515,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "117",
+              "freqMHz": 6535,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "121",
+              "freqMHz": 6555,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "125",
+              "freqMHz": 6575,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "129",
+              "freqMHz": 6595,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "133",
+              "freqMHz": 6615,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "137",
+              "freqMHz": 6635,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "141",
+              "freqMHz": 6655,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "145",
+              "freqMHz": 6675,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "149",
+              "freqMHz": 6695,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "153",
+              "freqMHz": 6715,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "157",
+              "freqMHz": 6735,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "161",
+              "freqMHz": 6755,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "165",
+              "freqMHz": 6775,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "169",
+              "freqMHz": 6795,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "173",
+              "freqMHz": 6815,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "177",
+              "freqMHz": 6835,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "181",
+              "freqMHz": 6855,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "185",
+              "freqMHz": 6875,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "189",
+              "freqMHz": 6895,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "193",
+              "freqMHz": 6915,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "197",
+              "freqMHz": 6935,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "201",
+              "freqMHz": 6955,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "205",
+              "freqMHz": 6975,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "209",
+              "freqMHz": 6995,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "213",
+              "freqMHz": 7015,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "217",
+              "freqMHz": 7035,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "221",
+              "freqMHz": 7055,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "225",
+              "freqMHz": 7075,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "229",
+              "freqMHz": 7095,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "233",
+              "freqMHz": 7115,
+              "bandwidthMHz": 20,
+              "type": "video"
+            },
+            {
+              "id": "3",
+              "freqMHz": 5965,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "11",
+              "freqMHz": 6005,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "19",
+              "freqMHz": 6045,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "27",
+              "freqMHz": 6085,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "35",
+              "freqMHz": 6125,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "43",
+              "freqMHz": 6165,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "51",
+              "freqMHz": 6205,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "59",
+              "freqMHz": 6245,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "67",
+              "freqMHz": 6285,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "75",
+              "freqMHz": 6325,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "83",
+              "freqMHz": 6365,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "91",
+              "freqMHz": 6405,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "99",
+              "freqMHz": 6445,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "107",
+              "freqMHz": 6485,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "115",
+              "freqMHz": 6525,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "123",
+              "freqMHz": 6565,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "131",
+              "freqMHz": 6605,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "139",
+              "freqMHz": 6645,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "147",
+              "freqMHz": 6685,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "155",
+              "freqMHz": 6725,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "163",
+              "freqMHz": 6765,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "171",
+              "freqMHz": 6805,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "179",
+              "freqMHz": 6845,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "187",
+              "freqMHz": 6885,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "195",
+              "freqMHz": 6925,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "203",
+              "freqMHz": 6965,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "211",
+              "freqMHz": 7005,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "219",
+              "freqMHz": 7045,
+              "bandwidthMHz": 40,
+              "type": "video"
+            },
+            {
+              "id": "227",
+              "freqMHz": 7085,
+              "bandwidthMHz": 40,
+              "type": "video"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
