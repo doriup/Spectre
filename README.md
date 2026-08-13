@@ -1,6 +1,6 @@
 # Spectre
 
-On-set frequency coordination across 2.4 / 5 / 6 GHz,a quick visual read
+On-set frequency coordination across 2.4 / 5 / 6 GHz, a quick visual read
 of which channels are free before assigning wireless video, follow-focus,
 or WiFi on a shoot.
 
